@@ -19,22 +19,27 @@ class Solution {
         if (root == null) return result;
         Queue<TreeNode> queue = new LinkedList<>();
         queue.offer(root);
-        boolean leftToRight = true;
+        int size = 0;
         while (!queue.isEmpty()) {
-            int size = queue.size();
-            LinkedList<Integer> level = new LinkedList<>();
-            for (int i = 0; i < size; i++) {
+            List<Integer> list = new ArrayList<>();
+            int levelSize = queue.size();
+            for (int i = 0; i < levelSize; i++) {
                 TreeNode node = queue.poll();
-                if (leftToRight) {
-                    level.addLast(node.val);  
-                } else {
-                    level.addFirst(node.val);  
+                if (size % 2 == 0) {
+                    list.add(node.val);
                 }
-                if (node.left != null) queue.offer(node.left);
-                if (node.right != null) queue.offer(node.right);
+                else {
+                    list.add(0, node.val);
+                }
+                if (node.left != null) {
+                    queue.add(node.left);
+                }
+                if (node.right != null) {
+                    queue.add(node.right);
+                }
             }
-            result.add(level);
-            leftToRight = !leftToRight; 
+            size++;
+            result.add(list);
         }
         return result;
     }
