@@ -2,26 +2,22 @@ class Solution {
     public int minInsertions(String s) {
         int need = 0;
         int ans = 0;
-        for (int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if (c == '(') {
-                ans++;
+        for (char ch : s.toCharArray()) {
+            if (ch == '(') {
+                if (need % 2 != 0) {
+                    ans++;
+                    need--;
+                }
+                need += 2;
             }
             else {
-                if (i + 1 < s.length() && s.charAt(i + 1) == ')') {
-                    i++;
-                }
-                else {
-                    need++;
-                }
-                if (ans > 0) {
-                    ans--;
-                }
-                else {
-                    need++;
+                need--;
+                if (need == -1) {
+                    ans++;
+                    need = 1;
                 }
             }
         }
-        return need + ans * 2;
+        return ans + need;
     }
 }
